@@ -14,13 +14,15 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch('https://swapi.dev/api/films');
+      const response = await fetch(
+        'https://sending-http-requests-bae76-default-rtdb.europe-west1.firebasedatabase.app/movies.json'
+      );
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
 
       const data = await response.json();
- 
+
       const transformedMovies = data.results.map(movieData => {
         return {
           id: movieData.episode_id,
@@ -44,25 +46,23 @@ function App() {
     console.log(movie);
   }
 
-
   const content = (() => {
-    let content = <p>Found no movies.</p>
+    let content = <p>Found no movies.</p>;
 
     if (movies.length > 0) {
-      content = <MoviesList movies={movies} />
+      content = <MoviesList movies={movies} />;
     }
 
     if (error) {
-      content = <p>{error}</p>
+      content = <p>{error}</p>;
     }
 
     if (isLoading) {
-      content = <p>Loading...</p>
+      content = <p>Loading...</p>;
     }
 
     return content;
   })();
-  
 
   return (
     <React.Fragment>
@@ -72,9 +72,7 @@ function App() {
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>
-        {content}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
